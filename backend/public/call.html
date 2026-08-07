@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Reservation - Browser Call Test</title>
+  <script src="/twilio-voice-sdk.min.js"></script>
+</head>
+<body>
+  <h1>AI Reservation - Browser Call Test</h1>
+  <button id="callBtn" disabled>Loading...</button>
+  <button id="hangupBtn" disabled>Hang Up</button>
+  <p id="status">Connecting...</p>
+
+  <script>
+    let device;
+    let activeCall;
+
+    const statusEl = document.getElementById('status');
+    const callBtn = document.getElementById('callBtn');
+    const hangupBtn = document.getElementById('hangupBtn');
+
+    async function setup() {
+      try {
+        if (typeof Twilio === 'undefined') {
+          throw new Error('Twilio SDK script failed to load (check network/ad-blocker)');
+        }
+
+        statusEl.textContent = 'Fetching token...';
+        const res = await fetch('/voice/token');
+        if (!res.ok) {
+          throw new Error('Token endpoint returned ' + res.status);
+        }
+        const { token } = await res.json();
+
+        statusEl.textContent = 'Registering device...';
+        device = new Twilio.Device(token, { logLevel: 1 });
+
+        device.on('registered', () => {
+          statusEl.textContent = 'Ready to call';
+          callBtn.disabled = false;
+          callBtn.textContent = 'Call Agent';
+        });
+
+        device.on('error', (err) => {
+          statusEl.textContent = 'Device error: ' + err.message;
+        });
+
+        await device.register();
+      } catch (err) {
+        statusEl.textContent = 'Setup failed: ' + err.message;
+        console.error(err);
+      }
+    }
+
+    callBtn.addEventListener('click', async () => {
+      callBtn.disabled = true;
+      statusEl.textContent = 'Calling...';
+      activeCall = await device.connect();
+
+      activeCall.on('accept', () => {
+        statusEl.textContent = 'In call';
+        hangupBtn.disabled = false;
+      });
+
+      activeCall.on('disconnect', () => {
+        statusEl.textContent = 'Call ended';
+        callBtn.disabled = false;
+        hangupBtn.disabled = true;
+      });
+    });
+
+    hangupBtn.addEventListener('click', () => {
+      if (activeCall) activeCall.disconnect();
+    });
+
+    setup();
+  </script>
+</body>
+</html>

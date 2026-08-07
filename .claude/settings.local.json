@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//tmp/lk-check/**)",
+      "Bash(rm -rf agents plugin-openai server-sdk)",
+      "Bash(mkdir agents *)",
+      "Bash(tar xzf *)"
+    ]
+  }
+}
