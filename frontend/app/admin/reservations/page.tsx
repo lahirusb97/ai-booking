@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Users } from "lucide-react";
-import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,7 +35,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BookingForm } from "@/components/reservations/booking-form";
-import { useRequireAuth } from "@/lib/use-require-auth";
 import {
   createReservation,
   getAvailableSlots,
@@ -74,7 +72,6 @@ const STATUS_BADGE_CLASS: Record<ReservationStatus, string> = {
 };
 
 export default function ReservationsPage() {
-  const { isReady } = useRequireAuth();
   const [date, setDate] = useState(todayIso());
   const [slots, setSlots] = useState<AvailableSlot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(true);
@@ -114,12 +111,12 @@ export default function ReservationsPage() {
   }, []);
 
   useEffect(() => {
-    if (isReady) loadSlots();
-  }, [isReady, loadSlots]);
+    loadSlots();
+  }, [loadSlots]);
 
   useEffect(() => {
-    if (isReady) loadReservations();
-  }, [isReady, loadReservations]);
+    loadReservations();
+  }, [loadReservations]);
 
   const slotsByArea = useMemo(() => {
     const groups = new Map<string, AvailableSlot[]>();
@@ -142,16 +139,8 @@ export default function ReservationsPage() {
     await loadReservations();
   }
 
-  if (!isReady) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading…</p>
-      </div>
-    );
-  }
-
   return (
-    <AppShell>
+    <>
       <h1 className="text-3xl">Reservations</h1>
       <p className="mt-2 text-muted-foreground">
         Pick a date to see open slots, then book a table.
@@ -318,6 +307,6 @@ export default function ReservationsPage() {
           )}
         </DialogContent>
       </Dialog>
-    </AppShell>
+    </>
   );
 }

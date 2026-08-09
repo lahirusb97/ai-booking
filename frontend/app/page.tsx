@@ -1,70 +1,36 @@
 "use client";
 
-import Link from "next/link";
-import { CalendarCheck2, Clock3, Users } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { AppShell } from "@/components/layout/app-shell";
-import { useRequireAuth } from "@/lib/use-require-auth";
+import { CalendarClock } from "lucide-react";
+import { PublicSlotBrowser } from "@/components/booking/public-slot-browser";
+import { VoiceCallButton } from "@/components/booking/voice-call-button";
 
 export default function Home() {
-  const { organization, isReady } = useRequireAuth();
-
-  if (!isReady || !organization) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading…</p>
-      </div>
-    );
-  }
-
   return (
-    <AppShell>
-      <h1 className="text-3xl">Welcome back, {organization.name}</h1>
-      <p className="mt-2 text-muted-foreground">
-        Here&apos;s a quick overview of your reservation system.
-      </p>
+    <div className="flex flex-1 flex-col">
+      <header className="border-b border-border bg-card">
+        <div className="flex h-16 w-full items-center px-4 sm:px-8">
+          <div className="flex items-center gap-2 font-semibold">
+            <CalendarClock className="size-5 text-primary" />
+            <span>TableTime</span>
+          </div>
+        </div>
+      </header>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <CalendarCheck2 className="size-5 text-primary" />
-              <CardTitle>Reservations</CardTitle>
+      <main className="flex-1 bg-secondary/30 px-4 py-8 sm:px-8">
+        <div className="mx-auto flex w-full max-w-4xl flex-col gap-8">
+          <div className="text-center">
+            <h1 className="text-3xl">Reserve your table</h1>
+            <p className="mt-2 text-muted-foreground">
+              Book online below, or talk to our AI booking assistant.
+            </p>
+            <div className="mt-6">
+              <VoiceCallButton />
             </div>
-            <CardDescription>
-              View and manage upcoming bookings.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-        <Link href="/availability">
-          <Card className="transition-colors hover:bg-accent/40">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Clock3 className="size-5 text-primary" />
-                <CardTitle>Availability</CardTitle>
-              </div>
-              <CardDescription>
-                Configure open hours and slot capacity.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Users className="size-5 text-primary" />
-              <CardTitle>Organization</CardTitle>
-            </div>
-            <CardDescription>{organization.email}</CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    </AppShell>
+          </div>
+
+          <PublicSlotBrowser />
+        </div>
+      </main>
+    </div>
   );
 }

@@ -6,9 +6,9 @@ import { CalendarCheck2, Clock3, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/availability", label: "Availability", icon: Clock3 },
-  { href: "/reservations", label: "Reservations", icon: CalendarCheck2 },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/availability", label: "Availability", icon: Clock3 },
+  { href: "/admin/reservations", label: "Reservations", icon: CalendarCheck2 },
 ];
 
 export function SiteSidebar() {
@@ -19,7 +19,7 @@ export function SiteSidebar() {
       <div className="flex flex-col gap-1 p-3">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const isActive =
-            href === "/" ? pathname === "/" : pathname.startsWith(href);
+            href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
           return (
             <Link
               key={href}

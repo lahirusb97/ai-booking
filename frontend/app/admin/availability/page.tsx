@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Plus, Trash2, Pencil } from "lucide-react";
-import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,7 +26,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AvailabilityRuleForm } from "@/components/availability/availability-rule-form";
-import { useRequireAuth } from "@/lib/use-require-auth";
 import {
   createAvailabilityRule,
   deleteAvailabilityRule,
@@ -38,7 +36,6 @@ import {
 } from "@/lib/availability";
 
 export default function AvailabilityPage() {
-  const { isReady } = useRequireAuth();
   const [rules, setRules] = useState<AvailabilityRule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -63,10 +60,8 @@ export default function AvailabilityPage() {
   }, []);
 
   useEffect(() => {
-    if (isReady) {
-      loadRules();
-    }
-  }, [isReady, loadRules]);
+    loadRules();
+  }, [loadRules]);
 
   async function handleCreate(input: AvailabilityRuleInput) {
     await createAvailabilityRule(input);
@@ -93,16 +88,8 @@ export default function AvailabilityPage() {
     }
   }
 
-  if (!isReady) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading…</p>
-      </div>
-    );
-  }
-
   return (
-    <AppShell>
+    <>
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl">Availability</h1>
@@ -215,6 +202,6 @@ export default function AvailabilityPage() {
           )}
         </DialogContent>
       </Dialog>
-    </AppShell>
+    </>
   );
 }

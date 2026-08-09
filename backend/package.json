@@ -12,7 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "agent:dev": "ts-node -r tsconfig-paths/register src/voice-agent/agent.ts dev",
+    "agent:dev": "npm run build && node dist/voice-agent/agent.js dev",
     "agent:start": "node dist/voice-agent/agent.js start",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
