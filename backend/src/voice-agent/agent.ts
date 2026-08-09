@@ -11,6 +11,7 @@ import { NestFactory } from '@nestjs/core';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 import { AppModule } from '../app.module';
+import { BUSINESS_NAME } from '../config/business.config';
 import { CallLog } from '../reservations/entities/call-log.entity';
 import { ReservationsService } from '../reservations/reservations.service';
 import { buildInstructions } from './instructions';
@@ -71,6 +72,10 @@ export default defineAgent({
     ctx.addShutdownCallback(persistCallLog);
 
     await session.start({ agent, room: ctx.room });
+
+    session.generateReply({
+      instructions: `Greet the caller as the receptionist for ${BUSINESS_NAME}. Say the restaurant name, introduce yourself briefly, and ask how you can help them today. Keep it short and friendly.`,
+    });
   },
 });
 
