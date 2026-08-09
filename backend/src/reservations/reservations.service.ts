@@ -38,6 +38,22 @@ export class ReservationsService {
     return this.reservationRepo.find({ order: { reservationDate: 'DESC', startTime: 'ASC' } });
   }
 
+  async findByPhone(phone: string): Promise<Reservation[]> {
+    const digits = phone.replace(/\D/g, '');
+    if (!digits) return [];
+
+    return this.reservationRepo
+      .createQueryBuilder('reservation')
+      .innerJoin('reservation.customer', 'customer')
+      .addSelect('customer.id')
+      .where("regexp_replace(customer.phone, '\\D', '', 'g') = :digits", {
+        digits,
+      })
+      .orderBy('reservation.reservationDate', 'DESC')
+      .addOrderBy('reservation.startTime', 'ASC')
+      .getMany();
+  }
+
   async findOne(id: string): Promise<Reservation> {
     const reservation = await this.reservationRepo.findOne({ where: { id } });
     if (!reservation) {
@@ -223,8 +239,9 @@ export class ReservationsService {
     partySize: number;
     reservationDate: string;
     reservationTime: string;
+    areaName?: string;
   }): Promise<Reservation> {
-    const slots = await this.getAvailableSlots(data.reservationDate);
+    const slots = await this.getAvailableSlots(data.reservationDate, data.areaName);
     const slot = slots.find((s) => s.startTime === data.reservationTime.slice(0, 5));
     if (!slot) {
       throw new BadRequestException('No availability for the requested time');
