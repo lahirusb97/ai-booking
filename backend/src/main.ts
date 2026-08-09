@@ -5,7 +5,16 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
+      'http://localhost:3004',
+      'http://localhost:3005',
+    ],
+  });
   app.useBodyParser('urlencoded', { extended: false });
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.enableShutdownHooks();

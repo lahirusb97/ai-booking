@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Users } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -12,13 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -34,21 +25,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BookingForm } from "@/components/reservations/booking-form";
+import { NewReservationDialog } from "@/components/reservations/new-reservation-dialog";
 import {
   createReservation,
-  getAvailableSlots,
   listReservations,
   updateReservationStatus,
-  type AvailableSlot,
   type CreateReservationInput,
   type Reservation,
   type ReservationStatus,
 } from "@/lib/reservations";
-
-function todayIso(): string {
-  return new Date().toISOString().slice(0, 10);
-}
 
 const STATUS_OPTIONS: ReservationStatus[] = [
   "pending",
@@ -72,28 +57,11 @@ const STATUS_BADGE_CLASS: Record<ReservationStatus, string> = {
 };
 
 export default function ReservationsPage() {
-  const [date, setDate] = useState(todayIso());
-  const [slots, setSlots] = useState<AvailableSlot[]>([]);
-  const [slotsLoading, setSlotsLoading] = useState(true);
-  const [slotsError, setSlotsError] = useState<string | null>(null);
-  const [selectedSlot, setSelectedSlot] = useState<AvailableSlot | null>(null);
-
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [reservationsLoading, setReservationsLoading] = useState(true);
   const [reservationsError, setReservationsError] = useState<string | null>(null);
 
-  const loadSlots = useCallback(async () => {
-    setSlotsLoading(true);
-    setSlotsError(null);
-    try {
-      const data = await getAvailableSlots(date);
-      setSlots(data);
-    } catch (err) {
-      setSlotsError(err instanceof Error ? err.message : "Failed to load slots");
-    } finally {
-      setSlotsLoading(false);
-    }
-  }, [date]);
+  const [newReservationOpen, setNewReservationOpen] = useState(false);
 
   const loadReservations = useCallback(async () => {
     setReservationsLoading(true);
@@ -111,27 +79,12 @@ export default function ReservationsPage() {
   }, []);
 
   useEffect(() => {
-    loadSlots();
-  }, [loadSlots]);
-
-  useEffect(() => {
     loadReservations();
   }, [loadReservations]);
 
-  const slotsByArea = useMemo(() => {
-    const groups = new Map<string, AvailableSlot[]>();
-    for (const slot of slots) {
-      const group = groups.get(slot.areaName) ?? [];
-      group.push(slot);
-      groups.set(slot.areaName, group);
-    }
-    return groups;
-  }, [slots]);
-
-  async function handleBook(input: CreateReservationInput) {
+  async function handleCreateReservation(input: CreateReservationInput) {
     await createReservation(input);
-    setSelectedSlot(null);
-    await Promise.all([loadSlots(), loadReservations()]);
+    await loadReservations();
   }
 
   async function handleStatusChange(id: string, status: ReservationStatus) {
@@ -141,72 +94,18 @@ export default function ReservationsPage() {
 
   return (
     <>
-      <h1 className="text-3xl">Reservations</h1>
-      <p className="mt-2 text-muted-foreground">
-        Pick a date to see open slots, then book a table.
-      </p>
-
-      <Card className="mt-8">
-        <CardHeader>
-          <CardTitle>Available slots</CardTitle>
-          <CardDescription>
-            Slots are generated from your availability rules for the selected date.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-1.5 sm:max-w-xs">
-            <Label htmlFor="date">Date</Label>
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
-
-          <div className="mt-6">
-            {slotsError && (
-              <p role="alert" className="text-sm text-destructive">
-                {slotsError}
-              </p>
-            )}
-
-            {slotsLoading ? (
-              <p className="text-sm text-muted-foreground">Loading slots…</p>
-            ) : slots.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                No open slots for this date. Check your availability rules.
-              </p>
-            ) : (
-              <div className="flex flex-col gap-6">
-                {Array.from(slotsByArea.entries()).map(([areaName, areaSlots]) => (
-                  <div key={areaName}>
-                    <h3 className="mb-2 text-sm font-semibold text-muted-foreground">
-                      {areaName}
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {areaSlots.map((slot) => (
-                        <Button
-                          key={`${slot.areaName}-${slot.startTime}`}
-                          variant="outline"
-                          className="flex-col items-start gap-0.5 h-auto py-2"
-                          onClick={() => setSelectedSlot(slot)}
-                        >
-                          <span className="font-medium">{slot.startTime}</span>
-                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Users className="size-3" />
-                            {slot.remainingCapacity} left
-                          </span>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl">Reservations</h1>
+          <p className="mt-2 text-muted-foreground">
+            Create and manage table reservations.
+          </p>
+        </div>
+        <Button onClick={() => setNewReservationOpen(true)}>
+          <Plus className="size-4" />
+          New reservation
+        </Button>
+      </div>
 
       <Card className="mt-8">
         <CardHeader>
@@ -286,27 +185,11 @@ export default function ReservationsPage() {
         </CardContent>
       </Card>
 
-      <Dialog
-        open={selectedSlot !== null}
-        onOpenChange={(open) => !open && setSelectedSlot(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Book this slot</DialogTitle>
-            <DialogDescription>
-              Enter the customer&apos;s details to place the reservation.
-            </DialogDescription>
-          </DialogHeader>
-          {selectedSlot && (
-            <BookingForm
-              date={date}
-              slot={selectedSlot}
-              onCancel={() => setSelectedSlot(null)}
-              onSubmit={handleBook}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+      <NewReservationDialog
+        open={newReservationOpen}
+        onOpenChange={setNewReservationOpen}
+        onSubmit={handleCreateReservation}
+      />
     </>
   );
 }
