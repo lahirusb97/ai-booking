@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Phone, PhoneOff } from "lucide-react";
+import { IconLoader2, IconPhone, IconPhoneOff } from "@tabler/icons-react";
 import { Room, RoomEvent, Track } from "livekit-client";
 import { Button } from "@/components/ui/button";
 import { getVoiceToken } from "@/lib/voice";
@@ -72,7 +72,7 @@ export function VoiceCallButton() {
 
       {state === "in-call" ? (
         <Button size="lg" variant="destructive" onClick={endCall}>
-          <PhoneOff className="size-5" />
+          <IconPhoneOff className="size-5" />
           End call
           <span className="ml-1 inline-block size-2 animate-pulse rounded-full bg-current" />
         </Button>
@@ -83,9 +83,9 @@ export function VoiceCallButton() {
           disabled={state === "connecting"}
         >
           {state === "connecting" ? (
-            <Loader2 className="size-5 animate-spin" />
+            <IconLoader2 className="size-5 animate-spin" />
           ) : (
-            <Phone className="size-5" />
+            <IconPhone className="size-5" />
           )}
           {state === "connecting" ? "Connecting…" : "Call to book"}
         </Button>

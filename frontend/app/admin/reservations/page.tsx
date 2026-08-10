@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { IconPlus } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -102,7 +102,7 @@ export default function ReservationsPage() {
           </p>
         </div>
         <Button onClick={() => setNewReservationOpen(true)}>
-          <Plus className="size-4" />
+          <IconPlus className="size-4" />
           New reservation
         </Button>
       </div>

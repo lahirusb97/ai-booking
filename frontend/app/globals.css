@@ -4,6 +4,310 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ==========================================================================
+   1. Color primitives — raw palette, never used directly in components.
+   Warm amber/terracotta brand (matches the restaurant photography) with a
+   deep teal secondary accent pulled from the hero image's bar backsplash.
+   ========================================================================== */
+:root {
+  --amber-100: oklch(0.97 0.02 60);
+  --amber-200: oklch(0.92 0.05 55);
+  --amber-300: oklch(0.83 0.1 50);
+  --amber-400: oklch(0.73 0.14 47);
+  --amber-500: oklch(0.6486 0.1748 45.28);
+  --amber-600: oklch(0.55 0.16 44);
+  --amber-700: oklch(0.42 0.13 42);
+
+  --teal-100: oklch(0.95 0.02 200);
+  --teal-200: oklch(0.87 0.05 200);
+  --teal-300: oklch(0.72 0.08 200);
+  --teal-400: oklch(0.55 0.09 200);
+  --teal-500: oklch(0.4 0.08 200);
+  --teal-600: oklch(0.32 0.07 200);
+  --teal-700: oklch(0.24 0.05 200);
+
+  --stone-100: oklch(0.9911 0 0);
+  --stone-200: oklch(0.965 0.012 55);
+  --stone-300: oklch(0.91 0.015 55);
+  --stone-400: oklch(0.78 0.02 55);
+  --stone-500: oklch(0.5423 0.03 55);
+  --stone-600: oklch(0.36 0.025 55);
+  --stone-700: oklch(0.2393 0.02 60);
+
+  --base-black: oklch(0.15 0.01 60);
+  --base-white: oklch(1 0 0);
+
+  --success-light: oklch(0.93 0.05 150);
+  --success-base: oklch(0.55 0.14 150);
+  --success-dark: oklch(0.32 0.1 150);
+
+  --danger-light: oklch(0.93 0.04 25);
+  --danger-base: oklch(0.577 0.245 27.325);
+  --danger-dark: oklch(0.35 0.15 25);
+
+  --warning-light: oklch(0.94 0.05 80);
+  --warning-base: oklch(0.65 0.15 70);
+  --warning-dark: oklch(0.38 0.1 60);
+
+  --info-light: oklch(0.93 0.03 240);
+  --info-base: oklch(0.55 0.12 240);
+  --info-dark: oklch(0.32 0.09 240);
+
+  /* dark-mode-only primitives */
+  --dark-bg-base: oklch(0.2 0.015 55);
+  --dark-bg-raised: oklch(0.25 0.018 55);
+  --dark-bg-elevated: oklch(0.31 0.02 55);
+  --dark-border-subtle: oklch(1 0 0 / 12%);
+
+  --success-on-dark: oklch(0.72 0.14 150);
+  --danger-on-dark: oklch(0.704 0.191 22.216);
+  --warning-on-dark: oklch(0.78 0.13 70);
+  --info-on-dark: oklch(0.72 0.1 240);
+}
+
+/* ==========================================================================
+   2. Color semantic tokens — light mode. Components consume these, never
+   the primitives above.
+   ========================================================================== */
+:root {
+  --background: var(--stone-100);
+  --foreground: var(--stone-700);
+  --card: var(--base-white);
+  --card-foreground: var(--stone-700);
+  --popover: var(--base-white);
+  --popover-foreground: var(--stone-700);
+
+  --primary: var(--amber-500);
+  --primary-foreground: oklch(0.99 0.01 90);
+  --secondary: var(--stone-200);
+  --secondary-foreground: oklch(0.32 0.03 55);
+  --muted: var(--stone-200);
+  --muted-foreground: var(--stone-500);
+  --accent: oklch(0.94 0.045 60);
+  --accent-foreground: oklch(0.32 0.06 45);
+
+  --brand-accent: var(--teal-500);
+  --brand-accent-foreground: var(--base-white);
+
+  --destructive: var(--danger-base);
+  --destructive-foreground: var(--base-white);
+  --success: var(--success-base);
+  --success-foreground: var(--base-white);
+  --warning: var(--warning-base);
+  --warning-foreground: var(--base-white);
+  --info: var(--info-base);
+  --info-foreground: var(--base-white);
+
+  --border: var(--stone-300);
+  --input: var(--stone-300);
+  --ring: var(--amber-500);
+
+  --chart-1: var(--amber-500);
+  --chart-2: var(--teal-400);
+  --chart-3: oklch(0.5 0.09 260);
+  --chart-4: oklch(0.72 0.15 85);
+  --chart-5: oklch(0.55 0.16 25);
+
+  --radius: 0.75rem;
+
+  --sidebar: oklch(0.97 0.012 55);
+  --sidebar-foreground: var(--stone-700);
+  --sidebar-primary: var(--amber-500);
+  --sidebar-primary-foreground: oklch(0.99 0.01 90);
+  --sidebar-accent: oklch(0.94 0.045 60);
+  --sidebar-accent-foreground: oklch(0.32 0.06 45);
+  --sidebar-border: var(--stone-300);
+  --sidebar-ring: var(--amber-500);
+}
+
+/* ==========================================================================
+   2b. Color semantic tokens — dark mode. Same names, swapped values.
+   ========================================================================== */
+.dark {
+  --background: var(--dark-bg-base);
+  --foreground: oklch(0.96 0.01 70);
+  --card: var(--dark-bg-raised);
+  --card-foreground: oklch(0.96 0.01 70);
+  --popover: var(--dark-bg-raised);
+  --popover-foreground: oklch(0.96 0.01 70);
+
+  --primary: var(--amber-400);
+  --primary-foreground: oklch(0.18 0.02 55);
+  --secondary: var(--dark-bg-elevated);
+  --secondary-foreground: oklch(0.94 0.01 70);
+  --muted: var(--dark-bg-elevated);
+  --muted-foreground: oklch(0.68 0.02 60);
+  --accent: oklch(0.34 0.05 50);
+  --accent-foreground: oklch(0.94 0.03 60);
+
+  --brand-accent: var(--teal-300);
+  --brand-accent-foreground: oklch(0.18 0.03 200);
+
+  --destructive: var(--danger-on-dark);
+  --destructive-foreground: oklch(0.18 0.02 25);
+  --success: var(--success-on-dark);
+  --success-foreground: oklch(0.16 0.03 150);
+  --warning: var(--warning-on-dark);
+  --warning-foreground: oklch(0.18 0.03 70);
+  --info: var(--info-on-dark);
+  --info-foreground: oklch(0.16 0.03 240);
+
+  --border: var(--dark-border-subtle);
+  --input: oklch(1 0 0 / 16%);
+  --ring: var(--amber-400);
+
+  --chart-1: var(--amber-400);
+  --chart-2: var(--teal-300);
+  --chart-3: oklch(0.62 0.11 260);
+  --chart-4: oklch(0.78 0.15 85);
+  --chart-5: oklch(0.6 0.16 25);
+
+  --sidebar: var(--dark-bg-elevated);
+  --sidebar-foreground: oklch(0.96 0.01 70);
+  --sidebar-primary: var(--amber-400);
+  --sidebar-primary-foreground: oklch(0.18 0.02 55);
+  --sidebar-accent: oklch(0.34 0.05 50);
+  --sidebar-accent-foreground: oklch(0.94 0.03 60);
+  --sidebar-border: var(--dark-border-subtle);
+  --sidebar-ring: var(--amber-400);
+}
+
+/* ==========================================================================
+   3. Typography scale — responsive font sizes, mobile-first with
+   tablet/desktop overrides. Line-heights bound to the leading scale below,
+   never hardcoded per text style.
+   ========================================================================== */
+:root {
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  --text-display-2xl: 40px;
+  --text-display-xl: 34px;
+  --text-display-lg: 30px;
+  --text-display-md: 26px;
+  --text-display-sm: 22px;
+  --text-display-xs: 18px;
+
+  --text-heading-2xl: 26px;
+  --text-heading-xl: 23px;
+  --text-heading-lg: 20px;
+  --text-heading-md: 18px;
+  --text-heading-sm: 16px;
+  --text-heading-xs: 15px;
+
+  --text-label-xl: 17px;
+  --text-label-lg: 15px;
+  --text-label-md: 13px;
+  --text-label-sm: 12px;
+  --text-label-xs: 10px;
+
+  --text-paragraph-xl: 17px;
+  --text-paragraph-lg: 16px;
+  --text-paragraph-md: 14px;
+  --text-paragraph-sm: 12px;
+  --text-paragraph-xs: 10px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --text-display-2xl: 52px;
+    --text-display-xl: 44px;
+    --text-display-lg: 38px;
+    --text-display-md: 32px;
+    --text-display-sm: 26px;
+    --text-display-xs: 20px;
+
+    --text-heading-2xl: 30px;
+    --text-heading-xl: 26px;
+    --text-heading-lg: 22px;
+    --text-heading-md: 19px;
+    --text-heading-sm: 17px;
+    --text-heading-xs: 16px;
+
+    --text-label-xl: 18px;
+    --text-label-lg: 16px;
+    --text-label-md: 14px;
+
+    --text-paragraph-xl: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --text-display-2xl: 64px;
+    --text-display-xl: 52px;
+    --text-display-lg: 44px;
+    --text-display-md: 36px;
+    --text-display-sm: 28px;
+    --text-display-xs: 20px;
+
+    --text-heading-2xl: 32px;
+    --text-heading-xl: 28px;
+    --text-heading-lg: 24px;
+
+    --text-paragraph-xl: 20px;
+  }
+}
+
+/* ==========================================================================
+   4. Spacing scale
+   ========================================================================== */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+}
+
+/* ==========================================================================
+   6. Elevation (shadow) tokens — light/dark
+   ========================================================================== */
+:root {
+  --shadow-elevation-1: 0 2px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-2: 0 8px 8px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-3: 0 24px 8px rgba(0, 0, 0, 0.12), 0 4px 2px rgba(0, 0, 0, 0.06);
+  --shadow-elevation-4: 0 48px 16px rgba(0, 0, 0, 0.16), 0 8px 4px rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --shadow-elevation-1: 0 2px 2px rgba(0, 0, 0, 0.4);
+  --shadow-elevation-2: 0 8px 2px rgba(0, 0, 0, 0.5);
+  --shadow-elevation-3: 0 24px 8px rgba(0, 0, 0, 0.6);
+  --shadow-elevation-4: 0 48px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* ==========================================================================
+   7. Layout tokens — containers and control heights. Breakpoints are
+   expressed as Tailwind's default scale (sm/md/lg/xl/2xl) rather than
+   redeclared, since they already match this spec's values.
+   ========================================================================== */
+:root {
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1200px;
+  --container-2xl: 1440px;
+
+  --control-height-sm: 32px;
+  --control-height-md: 40px;
+  --control-height-lg: 48px;
+  --control-height-xl: 56px;
+
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -27,6 +331,15 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-foreground: var(--brand-accent-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -46,75 +359,16 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-}
 
-:root {
-  --background: oklch(0.9911 0 0);
-  --foreground: oklch(0.2393 0.02 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2393 0.02 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2393 0.02 60);
-  --primary: oklch(0.6486 0.1748 45.28);
-  --primary-foreground: oklch(0.99 0.01 90);
-  --secondary: oklch(0.965 0.012 55);
-  --secondary-foreground: oklch(0.32 0.03 55);
-  --muted: oklch(0.965 0.012 55);
-  --muted-foreground: oklch(0.5423 0.03 55);
-  --accent: oklch(0.94 0.045 60);
-  --accent-foreground: oklch(0.32 0.06 45);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.015 55);
-  --input: oklch(0.91 0.015 55);
-  --ring: oklch(0.6486 0.1748 45.28);
-  --chart-1: oklch(0.6486 0.1748 45.28);
-  --chart-2: oklch(0.58 0.13 200);
-  --chart-3: oklch(0.5 0.09 260);
-  --chart-4: oklch(0.72 0.15 85);
-  --chart-5: oklch(0.55 0.16 25);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.97 0.012 55);
-  --sidebar-foreground: oklch(0.2393 0.02 60);
-  --sidebar-primary: oklch(0.6486 0.1748 45.28);
-  --sidebar-primary-foreground: oklch(0.99 0.01 90);
-  --sidebar-accent: oklch(0.94 0.045 60);
-  --sidebar-accent-foreground: oklch(0.32 0.06 45);
-  --sidebar-border: oklch(0.91 0.015 55);
-  --sidebar-ring: oklch(0.6486 0.1748 45.28);
-}
+  --shadow-elevation-1: var(--shadow-elevation-1);
+  --shadow-elevation-2: var(--shadow-elevation-2);
+  --shadow-elevation-3: var(--shadow-elevation-3);
+  --shadow-elevation-4: var(--shadow-elevation-4);
 
-.dark {
-  --background: oklch(0.2 0.015 55);
-  --foreground: oklch(0.96 0.01 70);
-  --card: oklch(0.25 0.018 55);
-  --card-foreground: oklch(0.96 0.01 70);
-  --popover: oklch(0.25 0.018 55);
-  --popover-foreground: oklch(0.96 0.01 70);
-  --primary: oklch(0.7 0.17 50);
-  --primary-foreground: oklch(0.18 0.02 55);
-  --secondary: oklch(0.31 0.02 55);
-  --secondary-foreground: oklch(0.94 0.01 70);
-  --muted: oklch(0.31 0.02 55);
-  --muted-foreground: oklch(0.68 0.02 60);
-  --accent: oklch(0.34 0.05 50);
-  --accent-foreground: oklch(0.94 0.03 60);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.7 0.17 50);
-  --chart-1: oklch(0.7 0.17 50);
-  --chart-2: oklch(0.65 0.13 200);
-  --chart-3: oklch(0.62 0.11 260);
-  --chart-4: oklch(0.78 0.15 85);
-  --chart-5: oklch(0.6 0.16 25);
-  --sidebar: oklch(0.23 0.018 55);
-  --sidebar-foreground: oklch(0.96 0.01 70);
-  --sidebar-primary: oklch(0.7 0.17 50);
-  --sidebar-primary-foreground: oklch(0.18 0.02 55);
-  --sidebar-accent: oklch(0.34 0.05 50);
-  --sidebar-accent-foreground: oklch(0.94 0.03 60);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.7 0.17 50);
+  --container-md: var(--container-md);
+  --container-lg: var(--container-lg);
+  --container-xl: var(--container-xl);
+  --container-2xl: var(--container-2xl);
 }
 
 @layer base {
@@ -131,24 +385,60 @@
     -moz-osx-font-smoothing: grayscale;
   }
   h1 {
-    @apply scroll-m-20 text-4xl font-semibold tracking-tight text-balance sm:text-5xl;
+    @apply scroll-m-20 font-semibold tracking-tight text-balance;
+    font-size: var(--text-display-md);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
   }
   h2 {
-    @apply scroll-m-20 text-3xl font-semibold tracking-tight text-balance;
+    @apply scroll-m-20 font-semibold tracking-tight text-balance;
+    font-size: var(--text-display-sm);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
   }
   h3 {
-    @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+    @apply scroll-m-20 font-bold tracking-tight;
+    font-size: var(--text-heading-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
   }
   h4 {
-    @apply scroll-m-20 text-xl font-semibold tracking-tight;
+    @apply scroll-m-20 font-bold tracking-tight;
+    font-size: var(--text-heading-lg);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.01em;
   }
   p {
-    @apply leading-7;
+    font-size: var(--text-paragraph-lg);
+    line-height: var(--leading-normal);
   }
   small {
-    @apply text-sm leading-none font-medium;
+    font-size: var(--text-label-sm);
+    line-height: var(--leading-relaxed);
+    @apply font-medium;
   }
   code {
     @apply font-mono text-sm;
+  }
+}
+
+/* ==========================================================================
+   Grid utility — built from the layout tokens above (Section 7 of the spec
+   had no consumer for the column/gutter numbers; this is that consumer).
+   ========================================================================== */
+@layer components {
+  .container-grid {
+    @apply mx-auto grid w-full grid-cols-4 gap-4 px-4;
+    max-width: var(--container-2xl);
+  }
+  @media (min-width: 768px) {
+    .container-grid {
+      @apply grid-cols-8 gap-5 px-5;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-grid {
+      @apply grid-cols-12 gap-6 px-6;
+    }
   }
 }

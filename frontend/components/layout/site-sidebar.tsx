@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarCheck2, Clock3, LayoutDashboard } from "lucide-react";
+import { IconCalendarCheck, IconClock, IconLayoutDashboard } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/availability", label: "Availability", icon: Clock3 },
-  { href: "/admin/reservations", label: "Reservations", icon: CalendarCheck2 },
+  { href: "/admin", label: "Dashboard", icon: IconLayoutDashboard },
+  { href: "/admin/availability", label: "Availability", icon: IconClock },
+  { href: "/admin/reservations", label: "Reservations", icon: IconCalendarCheck },
 ];
 
 export function SiteSidebar() {

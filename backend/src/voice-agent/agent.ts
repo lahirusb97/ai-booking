@@ -74,7 +74,7 @@ export default defineAgent({
     await session.start({ agent, room: ctx.room });
 
     session.generateReply({
-      instructions: `Greet the caller as the receptionist for ${BUSINESS_NAME}. Say the restaurant name, introduce yourself briefly, and ask how you can help them today. Keep it short and friendly.`,
+      instructions: `Greet the caller as the receptionist for ${BUSINESS_NAME}. Say the restaurant name, introduce yourself briefly, and ask how you can help them today. Keep it short and friendly. Greet in English.`,
     });
   },
 });

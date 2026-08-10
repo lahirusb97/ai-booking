@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Plus, Trash2, Pencil } from "lucide-react";
+import { IconPlus, IconTrash, IconPencil } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -98,7 +98,7 @@ export default function AvailabilityPage() {
           </p>
         </div>
         <Button onClick={() => setDialogState({ mode: "create" })}>
-          <Plus className="size-4" />
+          <IconPlus className="size-4" />
           New rule
         </Button>
       </div>
@@ -154,7 +154,7 @@ export default function AvailabilityPage() {
                           size="icon-sm"
                           onClick={() => setDialogState({ mode: "edit", rule })}
                         >
-                          <Pencil className="size-4" />
+                          <IconPencil className="size-4" />
                           <span className="sr-only">Edit</span>
                         </Button>
                         <Button
@@ -163,7 +163,7 @@ export default function AvailabilityPage() {
                           disabled={deletingId === rule.id}
                           onClick={() => handleDelete(rule.id)}
                         >
-                          <Trash2 className="size-4 text-destructive" />
+                          <IconTrash className="size-4 text-destructive" />
                           <span className="sr-only">Delete</span>
                         </Button>
                       </div>

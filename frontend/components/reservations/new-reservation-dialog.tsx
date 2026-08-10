@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users } from "lucide-react";
+import { IconUsers } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -167,7 +167,7 @@ export function NewReservationDialog({
                           >
                             <span className="font-medium">{slot.startTime}</span>
                             <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Users className="size-3" />
+                              <IconUsers className="size-3" />
                               {slot.remainingCapacity} left
                             </span>
                           </Button>

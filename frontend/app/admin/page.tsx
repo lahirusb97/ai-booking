@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarCheck2, Clock3, Users } from "lucide-react";
+import { IconCalendarCheck, IconClock, IconUsers } from "@tabler/icons-react";
 import {
   Card,
   CardDescription,
@@ -25,7 +25,7 @@ export default function AdminHome() {
           <Card className="transition-colors hover:bg-accent/40">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <CalendarCheck2 className="size-5 text-primary" />
+                <IconCalendarCheck className="size-5 text-primary" />
                 <CardTitle>Reservations</CardTitle>
               </div>
               <CardDescription>
@@ -38,7 +38,7 @@ export default function AdminHome() {
           <Card className="transition-colors hover:bg-accent/40">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Clock3 className="size-5 text-primary" />
+                <IconClock className="size-5 text-primary" />
                 <CardTitle>Availability</CardTitle>
               </div>
               <CardDescription>
@@ -50,7 +50,7 @@ export default function AdminHome() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Users className="size-5 text-primary" />
+              <IconUsers className="size-5 text-primary" />
               <CardTitle>Organization</CardTitle>
             </div>
             <CardDescription>{organization?.email}</CardDescription>
