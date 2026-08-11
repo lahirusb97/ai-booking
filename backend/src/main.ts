@@ -13,6 +13,8 @@ async function bootstrap() {
       'http://localhost:3003',
       'http://localhost:3004',
       'http://localhost:3005',
+      'https://ai-booking-git-main-lahirushirant-gmailcoms-projects.vercel.app',
+      'https://aivoice.lahirushiran.dev',
     ],
   });
   app.useBodyParser('urlencoded', { extended: false });
